@@ -1,0 +1,32 @@
+version: '3'
+services:
+  receiver:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/pubsub
+      - REDIS_HOST=redis
+    depends_on:
+      - mongo
+      - redis
+
+  listener:
+    build: .
+    command: node listener.js
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/pubsub
+      - REDIS_HOST=redis
+    depends_on:
+      - mongo
+      - redis
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
