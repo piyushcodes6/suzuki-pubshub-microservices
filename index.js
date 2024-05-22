@@ -1,4 +1,3 @@
-// index.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -40,7 +39,7 @@ app.post('/receiver', async (req, res) => {
 
   await newData.save();
 
-  // Publish event to Redis
+  // Publishing event to Redis
   redis.publish('data_inserted', JSON.stringify(newData));
 
   res.status(201).send(newData);
